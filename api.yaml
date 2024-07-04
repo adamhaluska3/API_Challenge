@@ -1,0 +1,447 @@
+openapi: 3.0.0
+servers: []
+info:
+  version: 1.0.0
+  title: API challenge
+  description: Create, edit or retrieve countries
+  license:
+    name: Apache 2.0
+    url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
+tags:
+  - name: Countries
+paths:
+  /countries/{country-id}:
+    get:
+      summary: retrieve information of certain country
+      tags:
+        - Countries
+      parameters:
+        - $ref: '#/components/parameters/CountryId'
+      responses:
+        '200':
+          description: Succesfull retrieval information of certain country
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Country'
+        '404':
+          description: Organization was not found
+    put:
+      summary: update country info
+      tags:
+        - Countries
+      parameters:
+        - $ref: '#/components/parameters/CountryId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CountryCreate'
+      responses:
+        '200':
+          description: Succesfull update of country
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Country'
+        '404':
+          description: Country was not found
+  /countries:
+    get:
+      summary: retrieve country information
+      tags:
+        - Countries
+      parameters:
+        - $ref: '#/components/parameters/CountryCodeFiltr'
+        - $ref: '#/components/parameters/PageLimit'
+        - $ref: '#/components/parameters/PageOffset'  
+      responses:
+        '200':
+          description: Succesfull retrieval of multiple countries
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Countries'
+    post:
+      summary: create country
+      tags:
+        - Countries
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CountryCreate'
+      responses:
+        '201':
+          description: Succesfully create a country
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Country'
+components:
+  schemas:
+    Links:
+      type: object
+      properties:
+        next:
+          type: string
+          format: uri
+        previous:
+          type: string
+          format: uri
+    Pagination:
+      type: object
+      required:
+        - count
+        - offset
+        - limit
+      properties:
+        count:
+          type: integer
+          format: int32
+          minimum: 0
+        offset:
+          type: integer
+          format: int32
+          minimum: 0
+        limit:
+          type: integer
+          format: int32
+          minimum: 0
+    CollectionResult:
+      type: object
+      required:
+        - count
+        - next
+        - previous
+      properties:
+        links:
+          $ref: '#/components/schemas/Links'
+        pagination:
+          $ref: '#/components/schemas/Pagination'
+    CountryCreate:
+      required:
+        - name
+        - countryCode
+      properties:
+        name:
+          type: string
+          example: 'Czech Republic'
+        countryCode:
+          type: string
+          example: 'CZ'
+    Country:
+      allOf:
+        - $ref: '#/components/schemas/CountryCreate'
+        - type: object
+      required:
+        - id
+        - groupId
+      properties:
+        id:
+          type: integer
+          example: 123
+        createdAt:
+          type: string
+          format: date-time
+        groupId:
+          type: integer
+          example: 123
+    Countries:
+      allOf:
+        - $ref: '#/components/schemas/CollectionResult'
+        - type: object
+      required:
+        - results
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/Country'  
+  parameters:
+    PageLimit:
+      name: limit
+      in: query
+      required: false
+      description: Limits the number of items on a page
+      schema:
+        type: integer
+        default: 50
+    PageOffset:
+      name: offset
+      in: query
+      description: Specifies the page number of the artists to be displayed
+      schema:
+        type: integer
+    UserId:
+      name: user-id
+      in: path
+      required: true
+      description: ID of user
+      schema:
+        type: string
+        format: uuid
+    FormLocalizationId:
+      name: form-localization-id
+      in: path
+      required: true
+      description: ID of form localization
+      schema:
+        type: integer
+        format: int64
+        minimum: 0    
+        example: 351
+    AssignedFormId:
+      name: assigned-form-id
+      in: path
+      required: true
+      description: ID of form assignment
+      schema:
+        type: integer
+        format: int64
+        minimum: 0    
+        example: 351
+    AssignedFormLanguageId:
+      name: assigned-form-language-id
+      in: path
+      required: true
+      description: ID of form language assignment
+      schema:
+        type: integer
+        format: int64
+        minimum: 0    
+        example: 351  
+    CountryId:
+      name: country-id
+      in: path
+      required: true
+      description: 'Unique identifier of country'
+      schema:
+        type: integer
+        example: 117
+    LanguageId:
+      name: language-id
+      in: path
+      required: true
+      description: 'Unique identifier of language'
+      schema:
+        type: integer
+        example: 117
+    GroupId:
+      name: group-id
+      in: path
+      required: true
+      description: 'Unique identifier of group'
+      schema:
+        type: integer
+        example: 135
+    CoordinationId:
+      name: coordination-id
+      in: path
+      required: true
+      description: 'Unique identifier of group coordination assignment'
+      schema:
+        type: integer
+        example: 135
+    OrganizationId:
+      name: organization-id
+      in: path
+      required: true
+      description: 'Unique identifier of organization'
+      schema:
+        type: integer
+        example: 117
+    MembershipId:
+      name: membership-id
+      in: path
+      required: true
+      description: 'Unique identifier of user membership into organization'
+      schema:
+        type: integer
+        example: 117
+    PatientId:
+      name: patient-id
+      in: path
+      required: true
+      description: 'Unique identifier of patient'
+      schema:
+        type: integer
+        format: int64
+        minimum: 0    
+        example: 117831  
+        exclusiveMinimum: true 
+    FormId:
+      name: form-id
+      in: path
+      required: true
+      description: 'Unique identifier of form'
+      schema:
+        type: integer
+    RecordId:
+      name: record-id
+      in: path
+      required: true
+      description: 'Unique identifier of form'
+      schema:
+        type: integer
+    VersionId:
+      name: version-id
+      in: path
+      required: true
+      description: 'Unique identifier of form version'
+      schema:
+        type: integer
+    VariantId:
+      name: variant-id
+      in: path
+      required: true
+      description: 'Unique identifier of form variant'
+      schema:
+        type: integer
+    UserIdFilter:
+      name: user
+      in: query
+      description: Retrieve info for specific user id
+      schema:
+        type: string
+        format: uuid 
+    UsernameFiltr:
+      name: username
+      in: query
+      description: Retrieve info for specific username
+      schema:
+        type: string
+    CountryIdFiltr:
+      name: country-id
+      in: query
+      description: Retrieve info for specific country
+      schema:
+        type: string
+      required: false    
+    CountryCodeFiltr:
+      name: country-code
+      in: query
+      description: Retrieve info for specific country code
+      schema:
+        type: string
+      required: false
+    FormIdFilter:
+      name: form
+      in: query
+      description: Retrieve info for specific form
+      schema:
+        type: integer
+      required: false      
+    FormVersionFilter:
+      name: version
+      in: query
+      description: Retrieve info for specific version
+      schema:
+        type: integer
+      required: false
+    LanguageFilter:
+      name: language
+      in: query
+      description: Retrieve info for specific language
+      schema:
+        type: integer
+      required: false  
+    PatientIdFiltr:
+      name: patient
+      in: query
+      description: Retrieve info for a specific patient
+      schema:
+        type: number
+        format: int64
+        minimum: 0
+        exclusiveMinimum: true
+    ActivePatientsFiltr:
+      name: active
+      in: query
+      description: Only results from certain organization
+      schema:
+        type: boolean
+      required: false         
+    OrganizationIdFilter:
+      name: organization
+      in: query
+      description: Only results from certain organization
+      schema:
+        type: number
+        format: int64
+        minimum: 0
+        exclusiveMinimum: true 
+        example: 476
+      required: false   
+    GroupIdFilter:
+      name: group
+      in: query
+      description: Only results for certain organization group
+      schema:
+        type: number
+        format: int64
+        minimum: 0
+        exclusiveMinimum: true 
+        example: 476
+      required: false   
+    CoordinatorIdFilter:
+      name: coordinator
+      in: query
+      description: Only results for certain coordinator
+      schema:
+        type: string
+        format: uuid   
+    FromTimestampFiltr:
+      name: from
+      in: query
+      description: Only results newest that timestamp
+      schema:
+        type: string
+        format: date-time
+      required: false 
+    ToTimestampFiltr:
+      name: to
+      in: query
+      description: Only results oldest that timestamp
+      schema:
+        type: string
+        format: date-time
+      required: false 
+    FormIdFiltr:
+      name: form
+      in: query
+      description: Retrieve info for a specific form
+      schema:
+        type: number
+        format: int64
+        minimum: 0
+        exclusiveMinimum: true 
+    LocalizationIdFiltr:
+      name: localization
+      in: query
+      description: Retrieve info for a specific localization
+      schema:
+        type: number
+        format: int64
+        minimum: 0
+        exclusiveMinimum: true
+    LatestLocalizationFiltr:
+      name: latest-localization
+      in: query
+      description: Only latest localization
+      schema:
+        type: boolean
+      required: false  
+  responses:
+    400Error:
+      description: Invalid request
+      content:
+        application/json:
+          schema:
+            type: object 
+            properties:
+              message:
+                type: string
+                
