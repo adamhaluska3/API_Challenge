@@ -1,4 +1,4 @@
-from typing import str, List, Self
+from typing import List, Self
 from django.db import models
 
 """ Utility models """
@@ -25,7 +25,7 @@ class CountryCreated:
         self.countryCode = countryCode
         
 class Countries:
-    def __init__(self, collectionResult: CollectionResult, countries: List[Country]) -> None:
+    def __init__(self, collectionResult: CollectionResult, countries: List['Country']) -> None:
         self.collectionResult = collectionResult
         self.countries = countries
 
@@ -37,7 +37,7 @@ class Country(models.Model):
     createdAt = models.DateTimeField()
     groupId = models.IntegerField()  # TODO: Ask for explanation of usage
     
-    name = models.CharField()
-    countryCode = models.CharField()
+    name = models.CharField(max_length=64)
+    countryCode = models.CharField(max_length=16)
     
     REQUIRED_FIELDS = ["id", "groupId"]
