@@ -38,8 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     
-    'ApiChallenge',
-    # 'ApiChallenge.models',
+    'ApiBackend.apps.ApibackendConfig',
     'rest_framework',
 ]
 
