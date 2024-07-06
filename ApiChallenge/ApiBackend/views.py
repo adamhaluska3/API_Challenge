@@ -1,12 +1,14 @@
 from rest_framework import viewsets
 from rest_framework.views import APIView
 from rest_framework.response import Response
+from rest_framework.pagination import LimitOffsetPagination
 import json
 
 from datetime import datetime
 
 from . import serializers
 from . import models
+from .countriesPaginator import CountriesPaginator
 
 
 def getCountryById(countryId: int) -> models.Country | None:
@@ -41,10 +43,18 @@ class CountriesIdentifiableView(APIView):
         return Response(status=404)
 
 
-class CountriesBaseView(APIView):    
+class CountriesBaseView(APIView):        
+        
     def get(self, request):
-        return
-    
+        paginator = CountriesPaginator()        
+        
+        countries = models.Country.objects.all()
+        
+        data = paginator.getpaginatedData(request, countries)
+        
+        serializer = serializers.CountriesSerializer(data)
+        return Response(serializer.data)
+        
     
     def post(self, request):
         data = json.loads(request.body)
