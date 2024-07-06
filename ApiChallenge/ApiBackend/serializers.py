@@ -4,15 +4,22 @@ from datetime import datetime
 
 from . import models
 
-class CountryCreateSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = models.CountryCreate
-        fields = "__all__"
 
 class CountrySerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Country
         fields = "__all__"
-
-                
         
+class LinksSerializer(serializers.Serializer):
+    next = serializers.URLField(allow_null=True, required=False)
+    previous = serializers.URLField(allow_null=True, required=False)
+
+class PaginationSerializer(serializers.Serializer):
+    count = serializers.IntegerField()
+    offset = serializers.IntegerField()
+    limit = serializers.IntegerField()
+    
+class CountriesSerializer(serializers.Serializer):
+    links = LinksSerializer()
+    pagination = PaginationSerializer()
+    countries = CountrySerializer(many=True)
