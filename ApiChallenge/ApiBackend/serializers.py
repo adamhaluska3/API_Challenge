@@ -8,15 +8,15 @@ from . import models
 class CountrySerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Country
-        fields = "_all__"
+        fields = "__all__"
     
-    def createCountry(self, countryCreated: models.CountryCreated, 
+    def createCountry(self, countryCreate: models.CountryCreate, 
                       countryId: int, groupId: int) -> Self:
         newCountry = models.Country.objects.create(id = countryId,
                                             createdAt = datetime.now(),
                                             groupId = groupId,
-                                            name = countryCreated.name,
-                                            countryCode = countryCreated.countryCode)
+                                            name = countryCreate.name,
+                                            countryCode = countryCreate.countryCode)
         newCountry.save()
         return newCountry
 

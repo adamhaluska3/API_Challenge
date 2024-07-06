@@ -19,7 +19,7 @@ class CollectionResult:
         self.pagination = pagination
 
         
-class CountryCreated:
+class CountryCreate:
     def __init__(self, name: str, countryCode: str) -> None:
         self.name = name
         self.countryCode = countryCode
@@ -37,6 +37,7 @@ class Country(models.Model):
     createdAt = models.DateTimeField()
     groupId = models.IntegerField()  # TODO: Ask for explanation of usage
     
+    #CountryCreated parameters
     name = models.CharField(max_length=64)
     countryCode = models.CharField(max_length=16)
     
