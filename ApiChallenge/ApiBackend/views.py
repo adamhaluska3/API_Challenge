@@ -16,7 +16,16 @@ def getCountryById(countryId: int) -> models.Country | None:
         return models.Country.objects.get(id = countryId)
     except models.Country.DoesNotExist:
         return None
+
+def filterCountries(request):
+    hasFilter: bool = request.GET.get("CountryCodeFiltr") is not None
     
+    return (
+        models.Country.objects.filter(countryCode=request.GET.get("CountryCodeFiltr"))
+        if hasFilter
+        else models.Country.objects.all()
+    )
+
 
 class CountriesIdentifiableView(APIView):
     def get(self, request, country_id):
@@ -48,8 +57,7 @@ class CountriesBaseView(APIView):
     def get(self, request):
         paginator = CountriesPaginator()        
         
-        countries = models.Country.objects.all()
-        
+        countries = filterCountries(request)        
         data = paginator.getpaginatedData(request, countries)
         
         serializer = serializers.CountriesSerializer(data)
