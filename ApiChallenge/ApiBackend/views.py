@@ -140,7 +140,7 @@ class CountriesBaseView(APIView):
         
         if serializer.is_valid(raise_exception=True):
             serializer.save()
-            return Response(status=200, data=serializer.data)
+            return Response(status=201, data=serializer.data)
 
         return Response(status=500)
         
