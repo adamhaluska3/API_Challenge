@@ -19,8 +19,11 @@
 
 - **Tests**: Even though I thoroughly tested the API using Postman, I wrote a couple of tests in _*tests.py*_ file.
 
+- _**groupId**_ **usage**: Assignment did not specify the importance of _*groupId*_ parameter. By default, I set every new country's _*groupId*_ to 1. \
+The project is ready for additional changes related to usage of _*groupId*_.
+
 ## Documentation phase
-- **Purge of assignment files**: Assignment files had to be removed from repo and its history - ```git filter-repo``` and ```git push --force```. \
+- **Purge of assignment files**: Before setting repo to public, assignment files had to be removed from repo and its history - ```git filter-repo``` and ```git push --force``` were used. \
 Unfortunately, merge commit from branch _*api-implementation*_ to _*main*_ got lost (I suspect I forgot to pull Merge commit before I push-forced new changes).
 
 - **Installation manual - OS**: Even though I developed this project on Windows, I included the manual for Linux as well, for the sake of usability.
