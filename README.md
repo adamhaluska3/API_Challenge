@@ -8,6 +8,9 @@ Users can:
 - Edit existing countries' names and country codes,
 - Create new countries.
 
+## Prerequisites
+- Python (3.10+)
+
 ## Installation
 - Clone [this repository](https://github.com/adamhaluska3/API_Challenge).
 - Create and activate virtual environment (venv):
