@@ -14,7 +14,7 @@ class Country(models.Model):
     """
     id = models.AutoField(primary_key=True, editable=False)
     createdAt = models.DateTimeField()
-    groupId = models.IntegerField()  # TODO: Ask for explanation of usage
+    groupId = models.IntegerField()
     
     # CountryCreated parameters
     name = models.CharField(max_length=64)
