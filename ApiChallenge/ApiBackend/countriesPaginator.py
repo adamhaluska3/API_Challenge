@@ -6,7 +6,7 @@ from typing import List, Dict, Any
 from .models import Country
 
 
-defaultPaginationLimit: int = 50  # TODO move ot constants?
+defaultPaginationLimit: int = 50
 
 class CountriesPaginator(LimitOffsetPagination):
     """
@@ -14,13 +14,38 @@ class CountriesPaginator(LimitOffsetPagination):
     
     Provides:
         URLs for next/previous request,
-        pagination data (countr, offset and limit).    
+        pagination data (counter, offset and limit).    
     """
     limit_query_param = "PageLimit"
     offset_query_param = "PageOffset"
+    
+    
+    def handleParameters(self, request: Request, countriesData: List[Country]) -> None:
+        """
+        Validates and sets all pagination parameters for correct pagination functioning.
+
+        Args:
+            request (Request): HTTP Request
+            countriesData (List[Country]): List of Country entities to paginate.
+
+        Returns:
+            None
+        """
+        
+        self.request = request
+        
+        self.count = len(countriesData)
+        self.offset = int(request.query_params.get("PageOffset", "0"))
+        
+        limit = request.query_params.get("PageLimit")
+        self.limit = int(limit) if (limit is not None) else defaultPaginationLimit
+        
+        request.query_params._mutable=True
+        request.query_params["PageOffset"] = self.offset
+        request.query_params["PageLimit"] = self.limit
 
 
-    def getpaginatedData(self, request: Request, countriesData: List[Country]) -> Dict[str:Any]:
+    def getpaginatedData(self, request: Request, countriesData: List[Country]) -> Dict[str, Any]:
         """
         Paginates the ``countriesData`` using the values in ``request``.
 
@@ -29,17 +54,11 @@ class CountriesPaginator(LimitOffsetPagination):
             countriesData (List[Country]): List of countries to be used as pagination source.
 
         Returns:
-            Dict[str:Any]: Dictionary containing prepared data for serialization of Countries object.
+            Dict[str, Any]: Dictionary containing prepared data for serialization of Countries object.
         """
         
         # Values required for 'paginate_queryset' to be set.
-        self.request = request
-        
-        self.count = len(countriesData)
-        self.offset = int(request.query_params.get("PageOffset", "0"))
-        
-        limit = request.query_params.get("PageLimit")
-        self.limit = int(limit) if (limit is not None) else defaultPaginationLimit
+        self.handleParameters(request, countriesData)
         
         links = {
             "previous": self.get_previous_link(),
