@@ -11,10 +11,16 @@
 
 - **CountryPaginator**: Default LimitOffsetPaginator works as intended, but (AFAIK) it does not provide native ability to display fields 'next', 'previous' and others that were required in the response. That's why the custom _*CountriesPaginator*_ was needed. One issue I encountered is the non-working pagination,  due to custom names of offset and limit. (this was easily fixed by setting Pagination's parameters).
 
-- **Default** _**PageLimit**_: set to 50 according to App.yaml file. This value is declared at the start of _*countriesPaginator.py*_ file (There is not enough 'hard-set' values for a reasonable creation of a separate file for constaints).
+- **Default** _**PageLimit**_: set to 50 according to App.yaml file. This value is declared at the start of _*countriesPaginator.py*_ file (There are not enough 'hard-set' values for a reasonable creation of a separate file for constaints).
 
 - **App.yaml imperfections**: File has a couple of issues:
     -  _*#/components/parameters/PageOffset*_ missed *required* field,
-    - _*/countries/<id: int> response '404'*_ uses word 'Organization" instead of Country.
+    - _*/countries/<id: int> response '404'*_ uses word 'Organization" instead of "Country".
 
 - **Tests**: Even though I thoroughly tested the API using Postman, I wrote a couple of tests in _*tests.py*_ file.
+
+## Documentation phase
+- **Purge of assignment files**: Assignment files had to be removed from repo and its history - ```git filter-repo``` and ```git push --force```. \
+Unfortunately, merge commit from branch _*api-implementation*_ to _*main*_ got lost (I suspect I forgot to pull Merge commit before I push-forced new changes).
+
+- **Installation manual - OS**: Even though I developed this project on Windows, I included the manual for Linux as well, for the sake of usability.
