@@ -42,7 +42,7 @@ Users can:
 | --- | --- | --- |
 | GET | /countries/\<id> | Retrieves country with given ID (if exists). |
 | PUT | /countries/\<id> | Updates existing country's name and country code. |
-| GET | /countries | Retrieves a list of countries; filter by _*CountryCodeFiltr*_, _*PageLimit*_ and _*PageOffset*_ pagination available via URL parameters. |
+| GET | /countries | Retrieves a list of countries; filter by _*country-code*_, _*limit*_ and _*offset*_ pagination available via URL parameters. |
 | POST | /countries | Creates new country with given name and country code. |
 
 ## Author

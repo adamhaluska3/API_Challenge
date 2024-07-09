@@ -16,8 +16,6 @@ class CountriesPaginator(LimitOffsetPagination):
         URLs for next/previous request,
         pagination data (counter, offset and limit).    
     """
-    limit_query_param = "PageLimit"
-    offset_query_param = "PageOffset"
     
     
     def handleParameters(self, request: Request, countriesData: List[Country]) -> None:
@@ -35,14 +33,14 @@ class CountriesPaginator(LimitOffsetPagination):
         self.request = request
         
         self.count = len(countriesData)
-        self.offset = int(request.query_params.get("PageOffset", "0"))
+        self.offset = int(request.query_params.get("offset", "0"))
         
-        limit = request.query_params.get("PageLimit")
+        limit = request.query_params.get("limit")
         self.limit = int(limit) if (limit is not None) else defaultPaginationLimit
         
         request.query_params._mutable=True
-        request.query_params["PageOffset"] = self.offset
-        request.query_params["PageLimit"] = self.limit
+        request.query_params["offset"] = self.offset
+        request.query_params["limit"] = self.limit
 
 
     def getpaginatedData(self, request: Request, countriesData: List[Country]) -> Dict[str, Any]:

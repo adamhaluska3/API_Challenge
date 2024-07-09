@@ -71,7 +71,7 @@ class CountriesGeneralTests(TestCase):
         self.assertEqual(getRequest.data["countries"][2]["id"], 3)
 
     def test_get_countries_filter(self):
-        getRequest = self.client.get("/countries", {"CountryCodeFiltr": "CZ", "PageLimit": "10"})
+        getRequest = self.client.get("/countries", {"country-code": "CZ", "limit": "10"})
         
         self.assertEqual(getRequest.status_code, status.HTTP_200_OK)
         self.assertEqual(getRequest.data["pagination"]["count"], 1)
@@ -81,7 +81,7 @@ class CountriesGeneralTests(TestCase):
         self.assertEqual(getRequest.data["countries"][0], CountrySerializer(self.czechia).data)
     
     def test_get_countries_offset_invalid(self):
-        getRequest = self.client.get("/countries", {"PageOffset": "12", "PageLimit": "10"})
+        getRequest = self.client.get("/countries", {"offset": "12", "limit": "10"})
         
         self.assertEqual(getRequest.status_code, status.HTTP_200_OK)
         self.assertEqual(getRequest.data["pagination"]["count"], 5)

@@ -36,7 +36,7 @@ def filterCountries(request) -> List[Country]:
     Returns:
         List[Country]: _description_
     """
-    filter: str | None= request.GET.get("CountryCodeFiltr")
+    filter: str | None= request.GET.get("country-code")
     
     return (
         Country.objects.filter(countryCode=filter)
