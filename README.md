@@ -22,7 +22,7 @@ Users can:
     - Linux:
     ```
     python -m venv /path/to/venv
-    source ./path/to/venv/Script/activate
+    source ./path/to/venv/bin/activate
     ```
 - Install dependencies from **requirements.txt**:
     ```
@@ -34,7 +34,7 @@ Users can:
     ```
 - Launch API server:
     ```
-    python manage.py runserver ('0.0.0.0:<wanted_port>' for publicly accessible server at wanted port)
+    python manage.py runserver ('0.0.0.0:<wanted_port>' for public server at wanted port [requires port forwarding])
     ```
 
 ## API Endpoints
@@ -42,7 +42,7 @@ Users can:
 | --- | --- | --- |
 | GET | /countries/\<id> | Retrieves country with given ID (if exists). |
 | PUT | /countries/\<id> | Updates existing country's name and country code. |
-| GET | /countries | Retrieves a list of countries, _*limit*_ and _*offset*_ pagination available. |
+| GET | /countries | Retrieves a list of countries; filter by _*CountryCodeFiltr*_, _*PageLimit*_ and _*PageOffset*_ pagination available via URL parameters. |
 | POST | /countries | Creates new country with given name and country code. |
 
 ## Author
